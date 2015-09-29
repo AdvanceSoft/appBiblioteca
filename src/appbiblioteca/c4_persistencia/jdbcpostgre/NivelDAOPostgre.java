@@ -65,12 +65,50 @@ public class NivelDAOPostgre implements INivelDAO{
 
     @Override
     public void modificar(Nivel nivel) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement sentencia;
+        String consultaSQL1 = "DELETE FROM lineaespecialidad WHERE codigonivel=?";
+        String consultaSQL2="UPDATE nivel   SET nombrenivel=?, descripcionnivel=? WHERE codigonivel=?";
+        String consultaSQL3="insert into lineaespecialidad(codigonivel,codigoespecialidad)values(?,?)";
+        try{
+            sentencia = gestorJDBC.prepararSentencia(consultaSQL1);
+            sentencia.setInt(1, nivel.getCodigo());
+            sentencia.executeUpdate();
+            sentencia.close();
+            sentencia = gestorJDBC.prepararSentencia(consultaSQL2);
+            sentencia.setString(1, nivel.getNombre());
+            sentencia.setString(2, nivel.getDescripcion());
+            sentencia.setInt(3, nivel.getCodigo());
+            sentencia.executeUpdate();
+            sentencia.close();
+            for(LineaEspecialidad lineaEspecialidad: nivel.getLineaEspecialidad()){
+                sentencia=gestorJDBC.prepararSentencia(consultaSQL3);
+                sentencia.setInt(1,nivel.getCodigo());
+                sentencia.setInt(2,lineaEspecialidad.getEspecialidad().getCodigo());
+                sentencia.executeUpdate();
+                sentencia.close();
+            }
+        } catch (Exception e){
+            throw ExcepcionSQL.crearErrorModificar();
+        }
     }
 
     @Override
     public void eliminar(Nivel nivel) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement sentencia;
+        String consultaSQL1 = "DELETE FROM lineaespecialidad WHERE codigonivel=?";
+        String consultaSQL2="DELETE FROM nivel WHERE codigonivel=?";
+        try{
+            sentencia = gestorJDBC.prepararSentencia(consultaSQL1);
+            sentencia.setInt(1, nivel.getCodigo());
+            sentencia.executeUpdate();
+            sentencia.close();
+            sentencia = gestorJDBC.prepararSentencia(consultaSQL2);
+            sentencia.setInt(1, nivel.getCodigo());
+            sentencia.executeUpdate();
+            sentencia.close();            
+        } catch (Exception e){
+            throw ExcepcionSQL.crearErrorEliminar();
+        }
     }
 
     @Override

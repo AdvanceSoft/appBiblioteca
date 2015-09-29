@@ -90,25 +90,8 @@ public class FormGestionarNivel extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
-
-//    private Nivel obtenerObjetoDeLaTabla(){
-//        Nivel nivel = null;
-//        int numFila = tablaNivel.getSelectedRow();
-//        if(numFila >= 0){//verificamos si se selecciono alguna fila de la Tabla            
-//            GestionarNivelServicio gestionarNivelServicio = new GestionarNivelServicio();
-//            ModeloTabla modeloTabla = (ModeloTabla) tablaNivel.getModel();
-//            int codigo = (int) modeloTabla.getValueAt(numFila, 0);
-//            try{
-//                nivel = gestionarNivelServicio.buscar(codigo);
-//            }catch(Exception e){
-//                Mensaje.mostrarErrorExcepcion(this,e.getMessage());
-//            }
-//        }else
-//            Mensaje.Mostrar_MENSAJE_FILANOSELECCIONADO(this);
-//        return nivel;
-//    } 
     
-     private Nivel obtenerObjetoDeLaTablaModificar(){
+     private Nivel obtenerObjetoDeLaTabla(){
         Nivel nivel = null;
         int numFila = tablaNivel.getSelectedRow();
         if(numFila >= 0){//verificamos si se selecciono alguna fila de la Tabla            
@@ -285,7 +268,7 @@ public class FormGestionarNivel extends javax.swing.JDialog {
 
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
         // TODO add your handling code here:
-        Nivel nivel = obtenerObjetoDeLaTablaModificar();
+        Nivel nivel = obtenerObjetoDeLaTabla();
         if(nivel != null){
             FormRegistrarNivel formRegistrarNivel = new FormRegistrarNivel(this,nivel);
             formRegistrarNivel.setVisible(true);
@@ -295,21 +278,21 @@ public class FormGestionarNivel extends javax.swing.JDialog {
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
         // TODO add your handling code here:
-//        GestionarNivelServicio gestionarNivelServicio = new GestionarNivelServicio();
-//        if(obtenerObjetoDeLaTabla() !=null){
-//            if(!Mensaje.Mostrar_MENSAJE_PREGUNTADEELIMINACION(this))
-//                return;
-//            try {
-//                   gestionarNivelServicio.eliminar(obtenerObjetoDeLaTabla());
-//                   Mensaje.Mostrar_MENSAJE_ELIMINACIONEXITOSA(this);
-//                   consultarNivel();
-//                   ponerFocoConSeleccionEnBuscar();
-//            } catch (Exception e) {
-//                Mensaje.Mostrar_MENSAJE_ELIMINACIONERRONEA(this);
-//                consultarNivel();
-//                ponerFocoConSeleccionEnBuscar();
-//            }            
-//        }
+        GestionarNivelServicio gestionarNivelServicio = new GestionarNivelServicio();
+        if(obtenerObjetoDeLaTabla() !=null){
+            if(!Mensaje.Mostrar_MENSAJE_PREGUNTADEELIMINACION(this))
+                return;
+            try {
+                   gestionarNivelServicio.eliminar(obtenerObjetoDeLaTabla());
+                   Mensaje.Mostrar_MENSAJE_ELIMINACIONEXITOSA(this);
+                   consultarNivel();
+                   ponerFocoConSeleccionEnBuscar();
+            } catch (Exception e) {
+                Mensaje.Mostrar_MENSAJE_ELIMINACIONERRONEA(this);
+                consultarNivel();
+                ponerFocoConSeleccionEnBuscar();
+            }            
+        }
     }//GEN-LAST:event_botonEliminarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

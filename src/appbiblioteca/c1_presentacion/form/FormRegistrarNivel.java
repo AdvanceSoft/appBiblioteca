@@ -26,7 +26,7 @@ public class FormRegistrarNivel extends javax.swing.JDialog {
     Nivel nivel;
     LineaEspecialidad lineaEspecialidad;
     Especialidad especialidad;
-    List<LineaEspecialidad> ListalineaEspecialidades;
+    List<LineaEspecialidad> listalineaEspecialidades;
     /**
      * Creates new form FormRegistrarNivel
      * @param parent
@@ -54,13 +54,12 @@ public class FormRegistrarNivel extends javax.swing.JDialog {
         modeloTablaEspecialidad.eliminarTotalFilas();
         ModeloTabla modeloTablaListaEspecialidad = (ModeloTabla)tablaListaEspecialidad.getModel();
         modeloTablaListaEspecialidad.eliminarTotalFilas();
-        this.ListalineaEspecialidades = nivel.getLineaEspecialidad();
-        
+        this.listalineaEspecialidades = nivel.getLineaEspecialidad();
         textoNombre.setText(nivel.getNombre());
         textoDescripcion.setText(nivel.getDescripcion());
         try{
-            if(ListalineaEspecialidades!=null && ListalineaEspecialidades.size()>0){
-                for (LineaEspecialidad lineaEspecialidad : ListalineaEspecialidades){
+            if(listalineaEspecialidades!=null && listalineaEspecialidades.size()>0){
+                for (LineaEspecialidad lineaEspecialidad : listalineaEspecialidades){
                     Fila fila = new Fila();
                     fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getCodigo());
                     fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getNombre());
@@ -158,19 +157,6 @@ public class FormRegistrarNivel extends javax.swing.JDialog {
             Mensaje.mostrarErrorExcepcion(this, e.getMessage());
         }
     }
-    
-//    private List verificarIgualdadLista(List listaEspecialidad){
-//        List <Especialidad> listaCargada = listaEspecialidad;
-//        List <LineaEspecialidad> listaGuardada = nivel.getLineaEspecialidad();
-//        List listaNueva = null;
-//        
-//        for (Especialidad especialidad : listaCargada) {
-//            for (Especialidad especialidad1 : listaGuardada) {
-//                
-//            }
-//        }
-//        return null;
-//    }
     
     private Especialidad seleccionarEspecialidad(){
         int codigo;

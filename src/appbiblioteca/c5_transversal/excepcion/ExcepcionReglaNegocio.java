@@ -13,6 +13,7 @@ public class ExcepcionReglaNegocio extends Exception{
     private final static String ERROR_EXISTENCIA_ESPECIALIDAD="Ya existe esta linea de Especialidad.";
     private final static String ERROR_ADQUISICION="Al menos ingrese una linea de adquisición para poder guardar.";
     private final static String ERROR_EXISTENCIA_AUTOR ="El Autor seleccionado ya existe en la lista.";
+    private final static String ERROR_ASIGNACION_ESPECIALIDADNIVEL ="Al menos debe agregar una especialidad";
     
     public ExcepcionReglaNegocio(String string) {
         super(string);
@@ -45,4 +46,9 @@ public class ExcepcionReglaNegocio extends Exception{
     public static ExcepcionReglaNegocio crearErroroCantidadPermitida()throws Exception{
         throw  new ExcepcionReglaNegocio(ERROR_CANTIDAD_PERMITIDA);
     }
+    
+    public static ExcepcionReglaNegocio crearERROR_ASIGNACION_ESPECIALIDADNIVEL()throws Exception{
+        throw  new ExcepcionReglaNegocio(ERROR_ASIGNACION_ESPECIALIDADNIVEL);
+    }
+    
 }

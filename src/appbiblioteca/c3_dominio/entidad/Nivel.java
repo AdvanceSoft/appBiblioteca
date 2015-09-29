@@ -75,4 +75,10 @@ public class Nivel {
             }
         }
     }
+    
+    public void validarNivel()throws Exception
+    {
+        if(lineaEspecialidades.size()<=0)
+            throw ExcepcionReglaNegocio.crearERROR_ASIGNACION_ESPECIALIDADNIVEL();
+    }
 }

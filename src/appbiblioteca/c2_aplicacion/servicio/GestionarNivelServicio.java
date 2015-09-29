@@ -33,6 +33,7 @@ public class GestionarNivelServicio {
     
     public void crear(Nivel nivel) throws Exception{
         gestorJDBC.abrirConexion();
+        nivel.validarNivel();
         try{
             nivelDAO.crear(nivel);
         }catch(Exception e){
@@ -44,6 +45,7 @@ public class GestionarNivelServicio {
     
     public void modificar(Nivel nivel) throws Exception{
         gestorJDBC.abrirConexion();
+        nivel.validarNivel();
         try{
             nivelDAO.modificar(nivel);
         }catch(Exception e){
