@@ -245,9 +245,8 @@ public class FormGestionarLibro extends javax.swing.JDialog {
     private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
         // TODO add your handling code here:
         FormRegistrarLibro formRegistrarLibro = new FormRegistrarLibro(this);
-        formRegistrarLibro.setVisible(true);
-        
-        
+        formRegistrarLibro.setVisible(true);        
+        buscarLibro();
     }//GEN-LAST:event_botonCrearActionPerformed
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed

@@ -74,35 +74,33 @@ public class NivelDAOPostgre implements INivelDAO{
     }
 
     @Override
-    public LineaEspecialidad buscar(int codigonivel) throws Exception {
+    public Nivel buscar(int codigonivel) throws Exception {
         String consulta = "select n.codigonivel, n.nombrenivel, n.descripcionnivel, e.codigoespecialidad, e.nombreespecialidad, e.descripcionespecialidad, le.codigonivel, le.codigoespecialidad from nivel n inner join lineaespecialidad le on n.codigonivel=le.codigonivel inner join especialidad e on le.codigoespecialidad = e.codigoespecialidad where n.codigonivel =" + codigonivel;
         ResultSet resultado = gestorJDBC.ejecutarConsulta(consulta);
-        Nivel nivel;
+        Nivel nivel = null;
         Especialidad especialidad;
-        LineaEspecialidad lineaEspecialidad = null;
+        ArrayList<LineaEspecialidad> lineaEspecialidad = new ArrayList<>();
         if(resultado.next()){
             nivel = new Nivel();
             nivel.setCodigo(resultado.getInt(1));
             nivel.setNombre(resultado.getString(2));
-            nivel.setDescripcion(resultado.getString(3));
+            nivel.setDescripcion(resultado.getString(3));           
             especialidad = new Especialidad();
             especialidad.setCodigo(resultado.getInt(4));
             especialidad.setNombre(resultado.getString(5));
-            especialidad.setDescripcion(resultado.getString(6));
-            lineaEspecialidad = new LineaEspecialidad();
-            lineaEspecialidad.setEspecialidad(especialidad);
-            lineaEspecialidad.setNivel(nivel);
+            especialidad.setDescripcion(resultado.getString(6));   
+            nivel.agregarEspecialidad(null);
         }
-        return lineaEspecialidad;
+        return nivel;
     }
-
+    
     @Override
-    public ArrayList<Nivel> buscarPorNombre(String nombre) throws Exception {
-        if(nombre == null){
+    public List<Nivel> buscar(String nombre) throws Exception {
+         if(nombre == null){
             nombre = "";
         }
         Nivel nivel;
-        ArrayList<Nivel> listaNivel = new ArrayList<>();
+        List<Nivel> listaNivel = new ArrayList<>();
         String consulta = "select codigonivel,nombrenivel,descripcionnivel from nivel where nombrenivel like '%"+nombre+"%' order by codigonivel desc";
         ResultSet resultado = gestorJDBC.ejecutarConsulta(consulta);
         while(resultado.next()){
@@ -113,11 +111,6 @@ public class NivelDAOPostgre implements INivelDAO{
             listaNivel.add(nivel);
         }
         return listaNivel;
-    }
-
-    @Override
-    public List<Nivel> buscar(String nombre) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -139,7 +132,6 @@ public class NivelDAOPostgre implements INivelDAO{
             especialidad.setDescripcion(resultado.getString(6));
             lineaEspecialidad = new LineaEspecialidad();
             lineaEspecialidad.setEspecialidad(especialidad);
-            lineaEspecialidad.setNivel(nivel);
             lineaEspecialidades.add(lineaEspecialidad);
         }
         return lineaEspecialidades;

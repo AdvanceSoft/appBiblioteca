@@ -34,7 +34,7 @@ public class FormRegistrarLibro extends javax.swing.JDialog {
     Libro libro;
     LineaAutor lineaAutor;
     ArrayList<Especialidad> listaEspecialidad;
-    ArrayList<Nivel> listaNivel;
+    List<Nivel> listaNivel;
     /**
      * Creates new form FormRegistrarLibro
      * @param parent
@@ -133,7 +133,7 @@ public class FormRegistrarLibro extends javax.swing.JDialog {
     private void LlenarComboNivel(){
         try{
             GestionarNivelServicio gestionarNivelServicio = new GestionarNivelServicio();
-            listaNivel = gestionarNivelServicio.buscarPorNombre(null);
+            listaNivel = gestionarNivelServicio.buscar(null);
             comboListaNivel.removeAllItems();
             for (Nivel nivel : listaNivel) {
                 comboListaNivel.addItem(nivel.getNombre());

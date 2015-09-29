@@ -24,7 +24,7 @@ import mastersoft.tabladatos.Tabla;
  */
 public class FormGestionarNivel extends javax.swing.JDialog {
     Nivel nivel;
-    ArrayList<Nivel> listaNivel;
+    List<Nivel> listaNivel;
     /**
      * Creates new form FormGestionarNivel
      * @param parent
@@ -65,7 +65,7 @@ public class FormGestionarNivel extends javax.swing.JDialog {
         textoBuscar.requestFocus();
     }
     
-    private void consultarProducto(){
+    private void consultarNivel(){
         ModeloTabla modeloTablaNivel = (ModeloTabla) tablaNivel.getModel();
         modeloTablaNivel.eliminarTotalFilas();
         String nombre = textoBuscar.getText().trim().toUpperCase();
@@ -108,21 +108,21 @@ public class FormGestionarNivel extends javax.swing.JDialog {
 //        return nivel;
 //    } 
     
-     private List<LineaEspecialidad> obtenerObjetoDeLaTablaModificar(){
-        List<LineaEspecialidad> lineaEspecialidades = null;
+     private Nivel obtenerObjetoDeLaTablaModificar(){
+        Nivel nivel = null;
         int numFila = tablaNivel.getSelectedRow();
         if(numFila >= 0){//verificamos si se selecciono alguna fila de la Tabla            
             GestionarNivelServicio gestionarNivelServicio = new GestionarNivelServicio();
             ModeloTabla modeloTabla = (ModeloTabla) tablaNivel.getModel();
             int codigo = (int) modeloTabla.getValueAt(numFila, 0);
             try{
-                lineaEspecialidades = gestionarNivelServicio.buscarLineaEspecialidad(codigo);
+                nivel = gestionarNivelServicio.buscar(codigo);
             }catch(Exception e){
                 Mensaje.mostrarErrorExcepcion(this,e.getMessage());
             }
         }else
             Mensaje.Mostrar_MENSAJE_FILANOSELECCIONADO(this);
-        return lineaEspecialidades;
+        return nivel;
     }    
     /**
      * This method is called from within the constructor to initialize the form.
@@ -269,7 +269,7 @@ public class FormGestionarNivel extends javax.swing.JDialog {
         // TODO add your handling code here:
        FormRegistrarNivel formRegistrarNivel = new FormRegistrarNivel(this);
        formRegistrarNivel.setVisible(true);
-       consultarProducto();
+       consultarNivel();
     }//GEN-LAST:event_botonCrearActionPerformed
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
@@ -279,17 +279,17 @@ public class FormGestionarNivel extends javax.swing.JDialog {
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         // TODO add your handling code here:        
-            consultarProducto();
+            consultarNivel();
             ponerFocoConSeleccionEnBuscar();
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
         // TODO add your handling code here:
-        List<LineaEspecialidad> lineaEspecialidades = obtenerObjetoDeLaTablaModificar();
-        if(lineaEspecialidades != null){
-            FormRegistrarNivel formRegistrarNivel = new FormRegistrarNivel(this,lineaEspecialidades);
+        Nivel nivel = obtenerObjetoDeLaTablaModificar();
+        if(nivel != null){
+            FormRegistrarNivel formRegistrarNivel = new FormRegistrarNivel(this,nivel);
             formRegistrarNivel.setVisible(true);
-            consultarProducto();
+            consultarNivel();
         } 
     }//GEN-LAST:event_botonModificarActionPerformed
 
@@ -302,11 +302,11 @@ public class FormGestionarNivel extends javax.swing.JDialog {
 //            try {
 //                   gestionarNivelServicio.eliminar(obtenerObjetoDeLaTabla());
 //                   Mensaje.Mostrar_MENSAJE_ELIMINACIONEXITOSA(this);
-//                   consultarProducto();
+//                   consultarNivel();
 //                   ponerFocoConSeleccionEnBuscar();
 //            } catch (Exception e) {
 //                Mensaje.Mostrar_MENSAJE_ELIMINACIONERRONEA(this);
-//                consultarProducto();
+//                consultarNivel();
 //                ponerFocoConSeleccionEnBuscar();
 //            }            
 //        }

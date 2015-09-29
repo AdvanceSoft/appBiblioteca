@@ -18,8 +18,7 @@ public interface INivelDAO {
     public void crear (Nivel nivel) throws Exception;
     public void modificar (Nivel nivel) throws Exception;
     public void eliminar (Nivel nivel) throws Exception;
-    public LineaEspecialidad buscar(int codigonivel) throws Exception;
+    public Nivel buscar(int codigonivel) throws Exception;
     public List<Nivel> buscar (String nombre) throws Exception;
-    public ArrayList<Nivel> buscarPorNombre(String nombre)throws Exception;
     public List<LineaEspecialidad> buscarLineaEspecialidad(int codigonivel)throws Exception;
 }

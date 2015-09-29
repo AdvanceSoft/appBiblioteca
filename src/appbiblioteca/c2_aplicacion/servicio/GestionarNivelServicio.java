@@ -31,7 +31,7 @@ public class GestionarNivelServicio {
         especialidadDAO = fabricaAbstractaDAO.crearEspecialidadDAO(gestorJDBC);
     }
     
-        public void crear(Nivel nivel) throws Exception{
+    public void crear(Nivel nivel) throws Exception{
         gestorJDBC.abrirConexion();
         try{
             nivelDAO.crear(nivel);
@@ -64,17 +64,17 @@ public class GestionarNivelServicio {
         gestorJDBC.cerrarConexion();
     }
     
-    public LineaEspecialidad buscar(int codigonivel) throws Exception{
-        LineaEspecialidad lineaEspecialidad ;
+    public Nivel buscar(int codigonivel) throws Exception{
+        Nivel nivel ;
         gestorJDBC.abrirConexion();
         try{
-            lineaEspecialidad = nivelDAO.buscar(codigonivel);
+            nivel = nivelDAO.buscar(codigonivel);
         }catch(Exception e){
             gestorJDBC.cerrarConexion();
             throw e;
         }
         gestorJDBC.cerrarConexion();
-        return lineaEspecialidad;
+        return nivel;
     }
     
     public List<Nivel> buscar(String nombre) throws Exception{
@@ -115,9 +115,16 @@ public class GestionarNivelServicio {
         gestorJDBC.cerrarConexion();
         return lineaEspecialidad;
     }
-    public ArrayList<Nivel> buscarPorNombre(String nombre) throws Exception {
-        gestorJDBC.abrirConexion();
-        ArrayList<Nivel> listaNivel = nivelDAO.buscarPorNombre(nombre);
+    public List<Nivel> buscarPorNombre(String nombre) throws Exception {
+        List<Nivel> listaNivel = null;
+        gestorJDBC.abrirConexion();        
+        try {            
+            listaNivel = nivelDAO.buscar(nombre);
+        
+        } catch (Exception e) {
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
         gestorJDBC.cerrarConexion();
         return listaNivel;
     }

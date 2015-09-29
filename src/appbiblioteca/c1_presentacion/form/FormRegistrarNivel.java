@@ -39,35 +39,35 @@ public class FormRegistrarNivel extends javax.swing.JDialog {
         
     }
     
-    public  FormRegistrarNivel(JDialog parent, List<LineaEspecialidad> lineaEspecialidades){
+    public  FormRegistrarNivel(JDialog parent, Nivel nivel){
         super(parent, true);
         initComponents();
         crearTablaEspecialidad();
         crearTablaListaEspecialidad();
-        obtenerObjetoDeGestionar(lineaEspecialidades);
+//        obtenerObjetoDeGestionar(lineaEspecialidades);
     }
     
-    private void obtenerObjetoDeGestionar(List<LineaEspecialidad> lineaEspecialidades){
-        ModeloTabla modeloTablaEspecialidad = (ModeloTabla)tablaEspecialidad.getModel();
-        modeloTablaEspecialidad.eliminarTotalFilas();
-        ModeloTabla modeloTablaListaEspecialidad = (ModeloTabla)tablaListaEspecialidad.getModel();
-        modeloTablaListaEspecialidad.eliminarTotalFilas();
-        this.ListalineaEspecialidades= lineaEspecialidades;
-        try {
-            if(ListalineaEspecialidades!=null && ListalineaEspecialidades.size()>0){
-                for (LineaEspecialidad lineaEspecialidad : lineaEspecialidades){
-                    textoNombre.setText(lineaEspecialidad.getNivel().getNombre());
-                    textoDescripcion.setText(lineaEspecialidad.getNivel().getDescripcion());
-                    Fila fila = new Fila();
-                    fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getCodigo());
-                    fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getNombre());
-                    fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getDescripcion());
-                    modeloTablaListaEspecialidad.agregarFila(fila);
-           }
-         }
-        } catch (Exception e) {
-        }
-    }
+//    private void obtenerObjetoDeGestionar(List<LineaEspecialidad> lineaEspecialidades){
+//        ModeloTabla modeloTablaEspecialidad = (ModeloTabla)tablaEspecialidad.getModel();
+//        modeloTablaEspecialidad.eliminarTotalFilas();
+//        ModeloTabla modeloTablaListaEspecialidad = (ModeloTabla)tablaListaEspecialidad.getModel();
+//        modeloTablaListaEspecialidad.eliminarTotalFilas();
+//        this.ListalineaEspecialidades= lineaEspecialidades;
+//        try {
+//            if(ListalineaEspecialidades!=null && ListalineaEspecialidades.size()>0){
+//                for (LineaEspecialidad lineaEspecialidad : lineaEspecialidades){
+//                    textoNombre.setText(lineaEspecialidad.getNivel().getNombre());
+//                    textoDescripcion.setText(lineaEspecialidad.getNivel().getDescripcion());
+//                    Fila fila = new Fila();
+//                    fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getCodigo());
+//                    fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getNombre());
+//                    fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getDescripcion());
+//                    modeloTablaListaEspecialidad.agregarFila(fila);
+//           }
+//         }
+//        } catch (Exception e) {
+//        }
+//    }
     
     
     private boolean verificarCamposLlenos(){
@@ -179,9 +179,9 @@ public class FormRegistrarNivel extends javax.swing.JDialog {
         ModeloTabla modeloTablaListaEspecialidad = (ModeloTabla)tablaListaEspecialidad.getModel();
         lineaEspecialidad = new LineaEspecialidad();
         try{            
-            lineaEspecialidad.setEspecialidad(seleccionarEspecialidad());            
+            lineaEspecialidad.setEspecialidad(seleccionarEspecialidad());
             nivel.agregarEspecialidad(lineaEspecialidad);
-            Fila fila = new Fila();        
+            Fila fila = new Fila();
             fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getCodigo());
             fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getNombre());
             fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getDescripcion());
@@ -426,11 +426,11 @@ public class FormRegistrarNivel extends javax.swing.JDialog {
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
         // TODO add your handling code here:
-        if (verificarCamposVacios()) {
-            nivel.setNombre(textoNombre.getText().trim().toUpperCase());
-            nivel.setDescripcion(textoDescripcion.getText().trim().toUpperCase());            
+        if (verificarCamposVacios()) {                       
             GestionarNivelServicio gestionarNivelServicio = new GestionarNivelServicio();
             try{
+                nivel.setNombre(textoNombre.getText().trim().toUpperCase());
+                nivel.setDescripcion(textoDescripcion.getText().trim().toUpperCase()); 
                 if(nivel.getCodigo()==0){
                     gestionarNivelServicio.crear(nivel);
                     Mensaje.Mostrar_MENSAJE_GUARDADOEXITOSO(this);
