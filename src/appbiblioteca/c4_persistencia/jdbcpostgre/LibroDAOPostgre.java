@@ -22,7 +22,8 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author CarlosAlfredo
+ * @author 
+ * <AdvanceSoft - Osorio Perez Carlos Alfredo - advancesoft.trujillo@gmail.com>
  */
 public class LibroDAOPostgre implements ILibroDAO{
         GestorJDBC gestorJDBC;
@@ -93,7 +94,7 @@ public class LibroDAOPostgre implements ILibroDAO{
         Especialidad especialidad;
         ResultSet resultado;
         List<Libro> listalibro = new ArrayList<>();
-        String sql= "SELECT l.codigolibro, e.codigoespecialidad, n.codigonivel, l.stickerlibro, l.nombrelibro, l.isbnlibro, l.descripcionlibro, l.activolibro FROM libro l inner join especialidad e on l.codigoespecialidad=e.codigoespecialidad inner join nivel n on l.codigonivel=n.codigonivel where l.nombrelibro like '%"+nombre+"%'";
+        String sql= "select l.codigolibro, e.codigoespecialidad, n.codigonivel, l.stickerlibro, l.nombrelibro, l.isbnlibro, l.descripcionlibro, l.activolibro FROM libro l inner join especialidad e on l.codigoespecialidad=e.codigoespecialidad inner join nivel n on l.codigonivel=n.codigonivel where l.nombrelibro like '%"+nombre+"%'";
         try {
             resultado = gestorJDBC.ejecutarConsulta(sql);
             while(resultado.next()){
@@ -116,6 +117,45 @@ public class LibroDAOPostgre implements ILibroDAO{
             throw ExcepcionSQL.crearErrorConsultar();
         }
         return listalibro;
+    }
+
+    @Override
+    public Libro buscaPorSticker(String sticker) throws Exception {
+        Libro libro = null;
+        Nivel nivel;
+        Especialidad especialidad;
+        ResultSet resultado;
+        String sql= "select "
+                + "l.codigolibro,l.stickerlibro,l.nombrelibro,l.isbnlibro,l.descripcionlibro,l.activolibro,"
+                + "e.codigoespecialidad,e.nombreespecialidad,e.descripcionespecialidad, "
+                + "n.codigonivel,n.nombrenivel,n.descripcionnivel "
+                + "from libro as l join nivel as n on l.codigonivel = n.codigonivel join especialidad as e on l.codigoespecialidad = e.codigoespecialidad "
+                + "where l.stickerlibro = '" + sticker + "'";
+        try {
+            resultado = gestorJDBC.ejecutarConsulta(sql);
+            if(resultado.next()){
+                libro = new Libro();
+                libro.setCodigo(resultado.getInt(1));
+                libro.setSticker(resultado.getString(2));
+                libro.setNombre(resultado.getString(3));
+                libro.setIsbn(resultado.getString(4));
+                libro.setDescripcion(resultado.getString(5));
+                libro.setActivo(resultado.getBoolean(6));
+                especialidad = new Especialidad();
+                especialidad.setCodigo(resultado.getInt(7));
+                especialidad.setNombre(resultado.getString(8));
+                especialidad.setDescripcion(resultado.getString(9));
+                libro.setEspecialidad(especialidad);
+                nivel = new Nivel();
+                nivel.setCodigo(resultado.getInt(10));
+                nivel.setNombre(resultado.getString(11));
+                nivel.setDescripcion(resultado.getString(12));
+                libro.setNivel(nivel);
+            }
+        } catch (Exception e) {
+            throw ExcepcionSQL.crearErrorConsultar();
+        }
+        return libro;
     }
     
     

@@ -242,7 +242,8 @@ public class FormGestionarEjemplar extends javax.swing.JDialog {
     }//GEN-LAST:event_panelInformacionMouseMoved
 
     private void botonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearActionPerformed
-        new FormRegistrarEjemplar(this).setVisible(true);
+        FormRegistrarEjemplar formRegistrarEjemplar = new FormRegistrarEjemplar(this);
+        formRegistrarEjemplar.setVisible(true);
     }//GEN-LAST:event_botonCrearActionPerformed
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed

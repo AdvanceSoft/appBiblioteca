@@ -10,7 +10,8 @@ import java.util.List;
 
 /**
  *
- * @author CarlosAlfredo
+ * @author 
+ * <AdvanceSoft - Osorio Perez Carlos Alfredo - advancesoft.trujillo@gmail.com>
  */
 public interface ILibroDAO {
     public void crear (Libro libro) throws Exception;
@@ -18,5 +19,5 @@ public interface ILibroDAO {
     public void eliminar (Libro libro) throws Exception;
     public Libro buscar(int codigolibro) throws Exception;
     public List<Libro> buscar (String nombre) throws Exception;
-
+    public Libro buscaPorSticker (String sticker) throws Exception;
 }

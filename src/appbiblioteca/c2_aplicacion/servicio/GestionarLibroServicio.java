@@ -15,7 +15,8 @@ import java.util.List;
 
 /**
  *
- * @author CarlosAlfredo
+ * @author 
+ * <AdvanceSoft - Osorio Perez Carlos Alfredo - advancesoft.trujillo@gmail.com>
  */
 public class GestionarLibroServicio {
     GestorJDBC gestorJDBC;
@@ -80,6 +81,19 @@ public class GestionarLibroServicio {
         gestorJDBC.abrirConexion();
         try{
             listalibro = libroDAO.buscar(nombre);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
+        gestorJDBC.cerrarConexion();
+        return listalibro;
+    }
+    
+    public Libro buscarPorSticker(String sticker) throws Exception{
+        Libro listalibro;
+        gestorJDBC.abrirConexion();
+        try{
+            listalibro = libroDAO.buscaPorSticker(sticker);
         }catch(Exception e){
             gestorJDBC.cerrarConexion();
             throw e;

@@ -6,7 +6,6 @@
 package appbiblioteca.c4_persistencia.jdbcpostgre;
 
 import appbiblioteca.c3_dominio.contrato.IUbicacionPisoDAO;
-import appbiblioteca.c3_dominio.entidad.UbicacionArmario;
 import appbiblioteca.c3_dominio.entidad.UbicacionPiso;
 import appbiblioteca.c4_persistencia.GestorJDBC;
 import appbiblioteca.c5_transversal.excepcion.ExcepcionSQL;
@@ -34,7 +33,6 @@ public class UbicacionPisoDAOPostgre implements IUbicacionPisoDAO{
         PreparedStatement sentencia;
         String sentenciaSQL1 = "insert into ubicacionpiso(nombreubicacionpiso) values(?);";
         try {
-            //Se realiza la operacion para la primera sentencia SQL1 
             sentencia = gestorJDBC.prepararSentencia(sentenciaSQL1);
             sentencia.setString(1, ubicacionPiso.getNombre());
             sentencia.executeUpdate();

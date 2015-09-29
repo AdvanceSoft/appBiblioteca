@@ -12,6 +12,7 @@ import appbiblioteca.c3_dominio.entidad.Libro;
 import appbiblioteca.c3_dominio.entidad.Nivel;
 import appbiblioteca.c4_persistencia.GestorJDBC;
 import appbiblioteca.c5_transversal.excepcion.ExcepcionSQL;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,7 +32,15 @@ public class EjemplarDAOPostgre implements  IEjemplarDAO{
 
     @Override
     public void crear(Ejemplar ejemplar) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String consulta = "insert into ejemplar(cantidadejemplar,tipoejemplar,codigoubicacionarmario,codigoubicacionpiso,codigoubicacionfila,codigolibro) values(?,?,?,?,?,?)";
+        PreparedStatement sentencia = gestorJDBC.prepararSentencia(consulta);
+        sentencia.setInt(1, ejemplar.getCantidad());
+        sentencia.setString(2, Ejemplar.TIPO_ORIGINAL);
+        sentencia.setInt(3, ejemplar.getUbicacionArmario().getCodigo());
+        sentencia.setInt(4, ejemplar.getUbicacionPiso().getCodigo());
+        sentencia.setInt(5, ejemplar.getUbicacionFila().getCodigo());
+        sentencia.setInt(6, ejemplar.getLibro().getCodigo());
+        sentencia.executeUpdate();
     }
 
     @Override

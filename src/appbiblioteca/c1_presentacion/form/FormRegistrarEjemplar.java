@@ -5,7 +5,18 @@
  */
 package appbiblioteca.c1_presentacion.form;
 
+import appbiblioteca.c1_presentacion.util.Mensaje;
+import appbiblioteca.c2_aplicacion.servicio.GestionarEjemplarServicio;
+import appbiblioteca.c2_aplicacion.servicio.GestionarLibroServicio;
+import appbiblioteca.c2_aplicacion.servicio.GestionarUbicacionArmarioServicio;
+import appbiblioteca.c2_aplicacion.servicio.GestionarUbicacionFilaServicio;
+import appbiblioteca.c2_aplicacion.servicio.GestionarUbicacionPisoServicio;
 import appbiblioteca.c3_dominio.entidad.Ejemplar;
+import appbiblioteca.c3_dominio.entidad.Libro;
+import appbiblioteca.c3_dominio.entidad.UbicacionArmario;
+import appbiblioteca.c3_dominio.entidad.UbicacionFila;
+import appbiblioteca.c3_dominio.entidad.UbicacionPiso;
+import java.util.List;
 import javax.swing.JDialog;
 
 /**
@@ -16,6 +27,11 @@ import javax.swing.JDialog;
 public class FormRegistrarEjemplar extends javax.swing.JDialog {
 
     Ejemplar ejemplar;
+    Libro libro;
+    List<UbicacionPiso> ubicacionPisos;
+    List<UbicacionArmario> ubicacionArmarios;
+    List<UbicacionFila> ubicacionFilas;   
+    
     /**
      * Creates new form FormRegistrarEjemplar
      * @param parent
@@ -23,6 +39,10 @@ public class FormRegistrarEjemplar extends javax.swing.JDialog {
     public FormRegistrarEjemplar(JDialog parent) {
         super(parent, true);
         initComponents();
+        llenarComboPiso();
+        llenarComboArmario();
+        llenarComboFila();        
+        iniciarCombos();        
         this.ejemplar = new Ejemplar();
     }
 
@@ -40,9 +60,109 @@ public class FormRegistrarEjemplar extends javax.swing.JDialog {
         checkActivo.setSelected(ejemplar.getLibro().isActivo());        
     }
     
-    public void buscarLibro(){
-        String stikerLibro = textoStikerLibro.getText().trim().toUpperCase();
-        
+    private void iniciarCombos(){
+        comboFila.setSelectedIndex(-1);
+        comboPiso.setSelectedIndex(-1);
+        comboArmario.setSelectedIndex(-1);
+        comboTipo.setSelectedIndex(-1);
+    }
+    
+    private void llenarComboPiso(){
+        try{
+            GestionarUbicacionPisoServicio gestionarUbicacionPisoServicio = new GestionarUbicacionPisoServicio();
+            ubicacionPisos = gestionarUbicacionPisoServicio.buscar("");
+            comboPiso.removeAllItems();
+            for (UbicacionPiso ubicacionPiso : ubicacionPisos) {
+                comboPiso.addItem(ubicacionPiso.getNombre());
+            }
+        }catch(Exception e){
+            
+        }
+    }
+    
+    private void llenarComboArmario(){
+        try{
+            GestionarUbicacionArmarioServicio gestionarUbicacionArmarioServicio = new GestionarUbicacionArmarioServicio();
+            ubicacionArmarios = gestionarUbicacionArmarioServicio.buscar("");
+            comboArmario.removeAllItems();
+            for (UbicacionArmario ubicacionArmario : ubicacionArmarios) {
+                comboArmario.addItem(ubicacionArmario.getNombre());
+            }
+        }catch(Exception e){
+            
+        }
+    }
+    
+    private void llenarComboFila(){
+        try{
+            GestionarUbicacionFilaServicio gestionarUbicacionFilaServicio = new GestionarUbicacionFilaServicio();
+            ubicacionFilas = gestionarUbicacionFilaServicio.buscar("");
+            comboFila.removeAllItems();
+            for (UbicacionFila ubicacionFila : ubicacionFilas) {
+                comboFila.addItem(ubicacionFila.getNombre());
+            }
+        }catch(Exception e){
+            
+        }
+    }
+    
+    private void buscarLibro(){
+        try{
+            String stikerLibro = textoStikerLibro.getText().trim().toUpperCase();
+            GestionarLibroServicio gestionarLibroServicio = new GestionarLibroServicio();
+            libro = gestionarLibroServicio.buscarPorSticker(stikerLibro);
+            textoNombre.setText(libro.getNombre());
+            textoNivel.setText(libro.getNivel().getNombre());
+            textoEspecialidad.setText(libro.getEspecialidad().getNombre());
+            checkActivo.setSelected(libro.isActivo());
+        }catch(Exception e){
+            
+        }        
+    }
+    
+    private void limpiar(){
+        textoNombre.setText("");
+        textoNivel.setText("");
+        textoEspecialidad.setText("");
+        checkActivo.setSelected(false);
+    }
+    
+    private boolean verificarCamposVacios(){
+        boolean verificar = true;
+        if(textoStikerLibro.getText().trim().isEmpty()){
+            Mensaje.Mostrar_MENSAJE_LLENARCAMPOSOBLIGATORIOS(this);
+           textoStikerLibro.requestFocus();
+           verificar = false;
+        }else if(textoNombre.getText().trim().isEmpty()){
+           Mensaje.Mostrar_MENSAJE_LLENARCAMPOSOBLIGATORIOS(this);
+           textoNombre.requestFocus();
+           verificar = false;
+        }else if(textoCantidad.getText().trim().isEmpty()){
+            Mensaje.Mostrar_MENSAJE_LLENARCAMPOSOBLIGATORIOS(this);
+            textoCantidad.requestFocus();
+            verificar = false;
+        }else if(comboTipo.getSelectedIndex() == -1){
+            Mensaje.Mostrar_MENSAJE_LLENARCAMPOBUSCAR(this);
+            comboTipo.requestFocus();
+            comboTipo.setPopupVisible(true);
+            verificar = false;
+        }else if(comboPiso.getSelectedIndex() == -1){
+            Mensaje.Mostrar_MENSAJE_LLENARCAMPOBUSCAR(this);
+            comboPiso.requestFocus();
+            comboPiso.setPopupVisible(true);
+            verificar = false;
+        }else if(comboArmario.getSelectedIndex() == -1){
+            Mensaje.Mostrar_MENSAJE_LLENARCAMPOBUSCAR(this);
+            comboArmario.requestFocus();
+            comboArmario.setPopupVisible(true);
+            verificar = false;
+        }else if(comboFila.getSelectedIndex() == -1){
+            Mensaje.Mostrar_MENSAJE_LLENARCAMPOBUSCAR(this);
+            comboFila.requestFocus();
+            comboFila.setPopupVisible(true);
+            verificar = false;
+        }
+        return verificar;
     }
     
     /**
@@ -174,12 +294,6 @@ public class FormRegistrarEjemplar extends javax.swing.JDialog {
 
         jLabel11.setText("Fila:");
 
-        comboPiso.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        comboArmario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        comboFila.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         comboTipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Original ", "Copia" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -249,6 +363,11 @@ public class FormRegistrarEjemplar extends javax.swing.JDialog {
         botonGuardar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         botonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/appbiblioteca/c1_presentacion/iconos/guardarx32.png"))); // NOI18N
         botonGuardar.setText("Guardar");
+        botonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarActionPerformed(evt);
+            }
+        });
 
         botonSalir.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         botonSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/appbiblioteca/c1_presentacion/iconos/salirx32.png"))); // NOI18N
@@ -312,8 +431,63 @@ public class FormRegistrarEjemplar extends javax.swing.JDialog {
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         // TODO add your handling code here:
+        limpiar();
         buscarLibro();
     }//GEN-LAST:event_botonBuscarActionPerformed
+
+    private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
+        // TODO add your handling code here:
+        if(verificarCamposVacios()){
+            ejemplar.setCantidad(Integer.parseInt(textoCantidad.getText().trim()));
+            UbicacionPiso ubicacionPiso;
+            ubicacionPiso = ubicacionPisos.get(comboPiso.getSelectedIndex());
+            ejemplar.setUbicacionPiso(ubicacionPiso);
+            UbicacionArmario ubicacionArmario;
+            ubicacionArmario = ubicacionArmarios.get(comboArmario.getSelectedIndex());
+            ejemplar.setUbicacionArmario(ubicacionArmario);
+            UbicacionFila ubicacionFila;
+            ubicacionFila = ubicacionFilas.get(comboFila.getSelectedIndex());
+            ejemplar.setUbicacionFila(ubicacionFila);
+            GestionarEjemplarServicio gestionarEjemplarServicio = new GestionarEjemplarServicio();
+            ejemplar.setLibro(libro);
+            try{
+                if(ejemplar.getCodigo() == 0){
+                    gestionarEjemplarServicio.crear(ejemplar);
+                    Mensaje.Mostrar_MENSAJE_GUARDADOEXITOSO(this);
+                    this.dispose();
+                }else{
+                    gestionarEjemplarServicio.modificar(ejemplar);
+                    Mensaje.Mostrar_MENSAJE_MODIFICADOEXITOSO(this);
+                    this.dispose();
+                }
+            }catch(Exception e){
+                Mensaje.mostrarErrorExcepcion(this, e.getMessage());
+            }
+        }
+        
+        /*
+        
+        if (verificarCamposVacios()) {
+            proveedor.setNombre(textoNombre.getText().trim().toUpperCase());
+            proveedor.setDireccion(textoDireccion.getText().trim().toUpperCase());
+            GestionarProveedorServicio gestionarProveedorServicio = new GestionarProveedorServicio();
+            try{
+                if(proveedor.getCodigo()==0){
+                    gestionarProveedorServicio.crear(proveedor);
+                    Mensaje.Mostrar_MENSAJE_GUARDADOEXITOSO(this);
+                    this.dispose();
+                }else{
+                    gestionarProveedorServicio.modificar(proveedor);
+                    Mensaje.Mostrar_MENSAJE_MODIFICADOEXITOSO(this);
+                    this.dispose();
+                }
+            }catch(Exception e){
+                Mensaje.mostrarErrorExcepcion(this, e.getMessage());
+            }
+        }
+        
+        */
+    }//GEN-LAST:event_botonGuardarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscar;

@@ -526,7 +526,8 @@ public class FormMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_menuGestionarUbicacionArmarioActionPerformed
 
     private void menuGestionarEjemplarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGestionarEjemplarActionPerformed
-       new FormGestionarEjemplar(this).setVisible(true);
+        FormGestionarEjemplar formGestionarEjemplar = new FormGestionarEjemplar(this);
+        formGestionarEjemplar.setVisible(true);
     }//GEN-LAST:event_menuGestionarEjemplarActionPerformed
 
     private void menuGestionarBibliotecarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGestionarBibliotecarioActionPerformed

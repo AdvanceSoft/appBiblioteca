@@ -7,7 +7,6 @@ package appbiblioteca.c4_persistencia.jdbcpostgre;
 
 import appbiblioteca.c3_dominio.contrato.IUbicacionArmarioDAO;
 import appbiblioteca.c3_dominio.entidad.UbicacionArmario;
-import appbiblioteca.c3_dominio.entidad.UbicacionFila;
 import appbiblioteca.c4_persistencia.GestorJDBC;
 import appbiblioteca.c5_transversal.excepcion.ExcepcionSQL;
 import java.sql.PreparedStatement;
@@ -33,7 +32,6 @@ public class UbicacionArmarioDAOPostgre implements IUbicacionArmarioDAO{
         PreparedStatement sentencia;
         String sentenciaSQL1 = "insert into ubicacionarmario(nombreubicacionarmario) values(?)";
         try {
-            //Se realiza la operacion para la primera sentencia SQL1 
             sentencia = gestorJDBC.prepararSentencia(sentenciaSQL1);
             sentencia.setString(1, ubicacionArmario.getNombre());
             sentencia.executeUpdate();
