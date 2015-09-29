@@ -21,7 +21,7 @@ public class ConexionJDBCPostgre extends GestorJDBC {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException ex) { }
-        String url = "jdbc:postgresql://localhost:5432/biblioteca2";
+        String url = "jdbc:postgresql://localhost:5432/biblioteca";
         conexion = DriverManager.getConnection(url, "postgres", "root");
     }    
 }
