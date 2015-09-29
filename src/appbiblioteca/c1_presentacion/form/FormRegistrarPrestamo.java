@@ -135,9 +135,12 @@ public class FormRegistrarPrestamo extends javax.swing.JDialog {
             GestionarLectorServicio gestionarLectorServicio = new GestionarLectorServicio(); 
             lector = gestionarLectorServicio.buscarPorDNI(textoAlumno.getText().trim());
             if(lector!=null){                
-                etiquetaAlumno.setText(lector.getApellido()+", "+lector.getNombre());                
+                etiquetaAlumno.setText(lector.getApellido()+", "+lector.getNombre());
+                textoLibro.setEnabled(true);
+                botonBuscarLibro.setEnabled(true);
             }else 
                 Mensaje.Mostrar_MENSAJE_NOSEENCONTRONINGUNRESULTADO(this);
+                ponerFocoConSeleccionEnBuscar();
         } catch (Exception e) {
             Mensaje.mostrarErrorExcepcion(this,e.getMessage());
         }
@@ -170,7 +173,11 @@ public class FormRegistrarPrestamo extends javax.swing.JDialog {
                     modeloTablaProveedor.agregarFila(fila);
                 }
                 modeloTablaProveedor.refrescarDatos();
-                ponerFocoConSeleccionEnBuscar();                
+                textoObservacion.setEnabled(true);
+                textoCantidad.setEnabled(true);
+                botonAgregar.setEnabled(true);
+                checkCasa.setEnabled(true);
+                checkSala.setEnabled(true);
             }else{
                 Mensaje.Mostrar_MENSAJE_NOSEENCONTRONINGUNRESULTADO(this);
                 ponerFocoConSeleccionEnBuscar();
@@ -600,19 +607,12 @@ public class FormRegistrarPrestamo extends javax.swing.JDialog {
 
     private void botonBuscarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarAlumnoActionPerformed
         // TODO add your handling code here:
-        buscarLector();
-        textoLibro.setEnabled(true);
-        botonBuscarLibro.setEnabled(true);
+        buscarLector();    
     }//GEN-LAST:event_botonBuscarAlumnoActionPerformed
 
     private void botonBuscarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarLibroActionPerformed
         // TODO add your handling code here:
-        buscarLibro();
-        textoObservacion.setEnabled(true);
-        textoCantidad.setEnabled(true);
-        botonAgregar.setEnabled(true);
-        checkCasa.setEnabled(true);
-        checkSala.setEnabled(true);
+        buscarLibro();        
     }//GEN-LAST:event_botonBuscarLibroActionPerformed
 
     private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed

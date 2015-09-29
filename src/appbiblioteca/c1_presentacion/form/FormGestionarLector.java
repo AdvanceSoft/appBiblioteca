@@ -40,11 +40,9 @@ public class FormGestionarLector extends javax.swing.JDialog {
         tabla.agregarColumna(new Columna("DNI", "java.lang.String"));
         tabla.agregarColumna(new Columna("GENERO", "java.lang.String"));
         tabla.agregarColumna(new Columna("FECHA DE NACIMIENTO", "java.sql.Date"));
-        tabla.agregarColumna(new Columna("TELEFONO", "java.lang.String"));
-        tabla.agregarColumna(new Columna("CORREO", "java.lang.String"));
         ModeloTabla modeloTablaLector = new ModeloTabla(tabla);
         tablaLector.setModel(modeloTablaLector);
-        TableColumn columna0,columna1,columna2,columna3,columna4,columna5,columna6,columna7;
+        TableColumn columna0,columna1,columna2,columna3,columna4,columna5;
         //CODIGO
         columna0 = tablaLector.getColumnModel().getColumn(0);
         tablaLector.removeColumn(columna0);
@@ -73,16 +71,6 @@ public class FormGestionarLector extends javax.swing.JDialog {
         columna5.setPreferredWidth(150);
         columna5.setMaxWidth(150);
         columna5.setMinWidth(150);
-        //TELEFONO
-        columna6 = tablaLector.getColumnModel().getColumn(5);
-        columna6.setPreferredWidth(180);
-        columna6.setMaxWidth(180);
-        columna6.setMinWidth(180);
-        //CORREO
-        columna7 = tablaLector.getColumnModel().getColumn(6);
-        columna7.setPreferredWidth(200);
-        columna7.setMaxWidth(200);
-        columna7.setMinWidth(200);
     }
     
     private void ponerFocoConSeleccionEnBuscar(){
@@ -105,8 +93,6 @@ public class FormGestionarLector extends javax.swing.JDialog {
                     fila.agregarValorCelda(lector.getDni());
                     fila.agregarValorCelda(lector.getGenero());
                     fila.agregarValorCelda(lector.getFechanacimiento());
-                    fila.agregarValorCelda(lector.getTelefono());
-                    fila.agregarValorCelda(lector.getCorreo());
                     modeloTablaLector.agregarFila(fila);
                 }
                 modeloTablaLector.refrescarDatos();
@@ -258,7 +244,7 @@ public class FormGestionarLector extends javax.swing.JDialog {
                         .addComponent(textoBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(botonbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 194, Short.MAX_VALUE)))
+                        .addGap(0, 228, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(

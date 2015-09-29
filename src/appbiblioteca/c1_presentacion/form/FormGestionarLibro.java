@@ -36,11 +36,10 @@ public class FormGestionarLibro extends javax.swing.JDialog {
         tabla.agregarColumna(new Columna("STIKER", "java.lang.String"));
         tabla.agregarColumna(new Columna("NOMBRE", "java.lang.String"));
         tabla.agregarColumna(new Columna("ISBN", "java.lang.String"));
-        tabla.agregarColumna(new Columna("DESCRIPCION", "java.lang.String"));
         tabla.agregarColumna(new Columna("ESTADO", "java.lang.Boolean"));
         ModeloTabla modeloTablaEspecialidad = new ModeloTabla(tabla);
         tablaLibro.setModel(modeloTablaEspecialidad);
-        TableColumn columna0,columna1,columna2;
+        TableColumn columna0,columna1;
         
         //CODIGO
         columna0 = tablaLibro.getColumnModel().getColumn(0);
@@ -63,13 +62,6 @@ public class FormGestionarLibro extends javax.swing.JDialog {
         columna1.setMaxWidth(100);
         columna1.setMinWidth(100);
         
-        //DESCRIPCION
-        
-        columna2 = tablaLibro.getColumnModel().getColumn(1);
-        columna2.setPreferredWidth(150);
-        columna2.setMaxWidth(150);
-        columna2.setMinWidth(150);
-        
         //ESTADO
         columna1 = tablaLibro.getColumnModel().getColumn(0);
         columna1.setPreferredWidth(50);
@@ -90,7 +82,6 @@ public class FormGestionarLibro extends javax.swing.JDialog {
                    fila.agregarValorCelda(libro.getSticker());
                    fila.agregarValorCelda(libro.getNombre());
                    fila.agregarValorCelda(libro.getIsbn());
-                   fila.agregarValorCelda(libro.getDescripcion());
                    fila.agregarValorCelda(libro.isActivo());
                    modeloTablaLibro.agregarFila(fila);
                 }
