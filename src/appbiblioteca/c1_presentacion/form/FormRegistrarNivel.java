@@ -25,6 +25,7 @@ import mastersoft.tabladatos.Tabla;
 public class FormRegistrarNivel extends javax.swing.JDialog {
     Nivel nivel;
     LineaEspecialidad lineaEspecialidad;
+    Especialidad especialidad;
     List<LineaEspecialidad> ListalineaEspecialidades;
     /**
      * Creates new form FormRegistrarNivel
@@ -44,30 +45,33 @@ public class FormRegistrarNivel extends javax.swing.JDialog {
         initComponents();
         crearTablaEspecialidad();
         crearTablaListaEspecialidad();
-//        obtenerObjetoDeGestionar(lineaEspecialidades);
+        obtenerObjetoDeGestionar(nivel);
     }
     
-//    private void obtenerObjetoDeGestionar(List<LineaEspecialidad> lineaEspecialidades){
-//        ModeloTabla modeloTablaEspecialidad = (ModeloTabla)tablaEspecialidad.getModel();
-//        modeloTablaEspecialidad.eliminarTotalFilas();
-//        ModeloTabla modeloTablaListaEspecialidad = (ModeloTabla)tablaListaEspecialidad.getModel();
-//        modeloTablaListaEspecialidad.eliminarTotalFilas();
-//        this.ListalineaEspecialidades= lineaEspecialidades;
-//        try {
-//            if(ListalineaEspecialidades!=null && ListalineaEspecialidades.size()>0){
-//                for (LineaEspecialidad lineaEspecialidad : lineaEspecialidades){
-//                    textoNombre.setText(lineaEspecialidad.getNivel().getNombre());
-//                    textoDescripcion.setText(lineaEspecialidad.getNivel().getDescripcion());
-//                    Fila fila = new Fila();
-//                    fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getCodigo());
-//                    fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getNombre());
-//                    fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getDescripcion());
-//                    modeloTablaListaEspecialidad.agregarFila(fila);
-//           }
-//         }
-//        } catch (Exception e) {
-//        }
-//    }
+    private void obtenerObjetoDeGestionar(Nivel nivel){
+        this.nivel = nivel;
+        ModeloTabla modeloTablaEspecialidad = (ModeloTabla)tablaEspecialidad.getModel();
+        modeloTablaEspecialidad.eliminarTotalFilas();
+        ModeloTabla modeloTablaListaEspecialidad = (ModeloTabla)tablaListaEspecialidad.getModel();
+        modeloTablaListaEspecialidad.eliminarTotalFilas();
+        this.ListalineaEspecialidades = nivel.getLineaEspecialidad();
+        
+        textoNombre.setText(nivel.getNombre());
+        textoDescripcion.setText(nivel.getDescripcion());
+        try{
+            if(ListalineaEspecialidades!=null && ListalineaEspecialidades.size()>0){
+                for (LineaEspecialidad lineaEspecialidad : ListalineaEspecialidades){
+                    Fila fila = new Fila();
+                    fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getCodigo());
+                    fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getNombre());
+                    fila.agregarValorCelda(lineaEspecialidad.getEspecialidad().getDescripcion());
+                    modeloTablaListaEspecialidad.agregarFila(fila);
+                }
+            }
+        }catch (Exception e) {
+            
+        }
+    }
     
     
     private boolean verificarCamposLlenos(){
@@ -137,6 +141,7 @@ public class FormRegistrarNivel extends javax.swing.JDialog {
         try{
             GestionarNivelServicio gestionarNivelServicio = new GestionarNivelServicio();
             List<Especialidad> listaEspecialidad = gestionarNivelServicio.buscarEspecialidad(nombre);
+            
             if(listaEspecialidad!=null && listaEspecialidad.size() > 0){
                 for (Especialidad especialidad : listaEspecialidad) {
                     Fila fila = new Fila();
@@ -153,6 +158,19 @@ public class FormRegistrarNivel extends javax.swing.JDialog {
             Mensaje.mostrarErrorExcepcion(this, e.getMessage());
         }
     }
+    
+//    private List verificarIgualdadLista(List listaEspecialidad){
+//        List <Especialidad> listaCargada = listaEspecialidad;
+//        List <LineaEspecialidad> listaGuardada = nivel.getLineaEspecialidad();
+//        List listaNueva = null;
+//        
+//        for (Especialidad especialidad : listaCargada) {
+//            for (Especialidad especialidad1 : listaGuardada) {
+//                
+//            }
+//        }
+//        return null;
+//    }
     
     private Especialidad seleccionarEspecialidad(){
         int codigo;

@@ -20,7 +20,7 @@ public class Ejemplar {
     public static final String TIPO_COPIA="COPIA";
     
     public Ejemplar(){
-        this.codigo=0; 
+        this.codigo = 0; 
     }
 
     public int getCodigo() {
@@ -89,10 +89,9 @@ public class Ejemplar {
     }
     
     public void validarExistenciaLibro(Libro libro)throws Exception{
-            Libro libroVerificar = null;
-            if(libroVerificar.getCodigo()==libro.getCodigo()){
-                throw ExcepcionReglaNegocio.crearErrorAdquisicion();
-            }
-        
+        Libro libroVerificar = null;
+        if(libroVerificar.getCodigo() == libro.getCodigo()){
+            throw ExcepcionReglaNegocio.crearErrorAdquisicion();
+        }        
     }
 }

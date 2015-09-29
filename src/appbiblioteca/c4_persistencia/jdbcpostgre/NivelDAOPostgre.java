@@ -75,21 +75,23 @@ public class NivelDAOPostgre implements INivelDAO{
 
     @Override
     public Nivel buscar(int codigonivel) throws Exception {
-        String consulta = "select n.codigonivel, n.nombrenivel, n.descripcionnivel, e.codigoespecialidad, e.nombreespecialidad, e.descripcionespecialidad, le.codigonivel, le.codigoespecialidad from nivel n inner join lineaespecialidad le on n.codigonivel=le.codigonivel inner join especialidad e on le.codigoespecialidad = e.codigoespecialidad where n.codigonivel =" + codigonivel;
+        String consulta = "select n.codigonivel, n.nombrenivel, n.descripcionnivel, e.codigoespecialidad, e.nombreespecialidad, e.descripcionespecialidad from nivel n inner join lineaespecialidad le on n.codigonivel=le.codigonivel inner join especialidad e on le.codigoespecialidad = e.codigoespecialidad where n.codigonivel =" + codigonivel;
         ResultSet resultado = gestorJDBC.ejecutarConsulta(consulta);
-        Nivel nivel = null;
+        System.out.println(resultado.toString());
+        Nivel nivel = new Nivel();
         Especialidad especialidad;
-        ArrayList<LineaEspecialidad> lineaEspecialidad = new ArrayList<>();
-        if(resultado.next()){
-            nivel = new Nivel();
+        LineaEspecialidad lineaEspecialidad;
+        while(resultado.next()){
             nivel.setCodigo(resultado.getInt(1));
             nivel.setNombre(resultado.getString(2));
-            nivel.setDescripcion(resultado.getString(3));           
+            nivel.setDescripcion(resultado.getString(3));
             especialidad = new Especialidad();
             especialidad.setCodigo(resultado.getInt(4));
             especialidad.setNombre(resultado.getString(5));
             especialidad.setDescripcion(resultado.getString(6));   
-            nivel.agregarEspecialidad(null);
+            lineaEspecialidad = new LineaEspecialidad();
+            lineaEspecialidad.setEspecialidad(especialidad);
+            nivel.agregarEspecialidad(lineaEspecialidad);
         }
         return nivel;
     }
