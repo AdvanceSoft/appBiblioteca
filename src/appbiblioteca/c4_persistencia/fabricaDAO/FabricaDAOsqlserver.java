@@ -14,6 +14,8 @@ import appbiblioteca.c3_dominio.contrato.IUbicacionArmarioDAO;
 import appbiblioteca.c3_dominio.contrato.IUbicacionFilaDAO;
 import appbiblioteca.c3_dominio.contrato.IUbicacionPisoDAO;
 import appbiblioteca.c4_persistencia.GestorJDBC;
+import appbiblioteca.c4_persistencia.jdbcsqlserver.ConexionJDBCSQLServer;
+import appbiblioteca.c4_persistencia.jdbcsqlserver.ProveedorDAOsqlserver;
 
 /**
  * @author <AdvanceSoft - Osorio Perez Carlos Alfredo - advancesoft.trujillo@gmail.com>
@@ -24,12 +26,12 @@ public class FabricaDAOsqlserver extends FabricaAbstractaDAO {
 
     @Override
     public GestorJDBC crearGestorJDBC() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new ConexionJDBCSQLServer();
     }
 
     @Override
     public IProveedorDAO crearProveedorDAO(GestorJDBC gestorJDBC) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new ProveedorDAOsqlserver(gestorJDBC);
     }
 
     @Override
