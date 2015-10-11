@@ -40,7 +40,14 @@ public class GestionarEjemplarServicio {
     }
     
     public void crear(Ejemplar ejemplar) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        gestorJDBC.abrirConexion();
+        try{
+            ejemplarDAO.crear(ejemplar);
+        }catch(Exception e){
+            gestorJDBC.cerrarConexion();
+            throw e;
+        }
+        gestorJDBC.cerrarConexion();
     }
 
     

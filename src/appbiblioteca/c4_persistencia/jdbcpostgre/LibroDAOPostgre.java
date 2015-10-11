@@ -6,6 +6,7 @@
 package appbiblioteca.c4_persistencia.jdbcpostgre;
 
 import appbiblioteca.c3_dominio.contrato.ILibroDAO;
+import appbiblioteca.c3_dominio.entidad.Autor;
 import appbiblioteca.c3_dominio.entidad.Especialidad;
 import appbiblioteca.c3_dominio.entidad.Libro;
 import appbiblioteca.c3_dominio.entidad.LineaAutor;
@@ -121,20 +122,26 @@ public class LibroDAOPostgre implements ILibroDAO{
 
     @Override
     public Libro buscaPorSticker(String sticker) throws Exception {
-        Libro libro = null;
+        Libro libro = new Libro();
         Nivel nivel;
         Especialidad especialidad;
+        Autor autor;
+        LineaAutor lineaAutor;
         ResultSet resultado;
-        String sql= "select "
-                + "l.codigolibro,l.stickerlibro,l.nombrelibro,l.isbnlibro,l.descripcionlibro,l.activolibro,"
-                + "e.codigoespecialidad,e.nombreespecialidad,e.descripcionespecialidad, "
-                + "n.codigonivel,n.nombrenivel,n.descripcionnivel "
-                + "from libro as l join nivel as n on l.codigonivel = n.codigonivel join especialidad as e on l.codigoespecialidad = e.codigoespecialidad "
-                + "where l.stickerlibro = '" + sticker + "'";
+        String sql= "select " +
+                    "l.codigolibro,l.stickerlibro,l.nombrelibro,l.isbnlibro,l.descripcionlibro,l.activolibro, " +
+                    "e.codigoespecialidad,e.nombreespecialidad,e.descripcionespecialidad, " +
+                    "n.codigonivel,n.nombrenivel,n.descripcionnivel, " +
+                    "a.codigoautor,a.nombreautor,a.apellidoautor " +
+                    "from libro as l " +
+                    "join nivel as n on l.codigonivel = n.codigonivel " +
+                    "join especialidad as e on l.codigoespecialidad = e.codigoespecialidad " +
+                    "join lineautor la on l.codigolibro = la.codigolibro " +
+                    "join autor a on la.codigoautor=a.codigoautor " +
+                    "where l.stickerlibro = '"+sticker+"'";
         try {
             resultado = gestorJDBC.ejecutarConsulta(sql);
-            if(resultado.next()){
-                libro = new Libro();
+            while(resultado.next()){
                 libro.setCodigo(resultado.getInt(1));
                 libro.setSticker(resultado.getString(2));
                 libro.setNombre(resultado.getString(3));
@@ -151,6 +158,13 @@ public class LibroDAOPostgre implements ILibroDAO{
                 nivel.setNombre(resultado.getString(11));
                 nivel.setDescripcion(resultado.getString(12));
                 libro.setNivel(nivel);
+                autor = new Autor();
+                autor.setCodigo(resultado.getInt(13));
+                autor.setNombre(resultado.getString(14));
+                autor.setApellido(resultado.getString(15));
+                lineaAutor = new LineaAutor();
+                lineaAutor.setAutor(autor);
+                libro.agregarAutor(lineaAutor);
             }
         } catch (Exception e) {
             throw ExcepcionSQL.crearErrorConsultar();
